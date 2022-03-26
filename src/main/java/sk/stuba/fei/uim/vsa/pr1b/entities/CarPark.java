@@ -19,7 +19,7 @@ public class CarPark implements Serializable {
     private String address;
     private Integer pricePerHour;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CarParkFloor> floors;
 
     public List<CarParkFloor> getFloors() {
@@ -34,6 +34,17 @@ public class CarPark implements Serializable {
         if(floors==null)
             floors = new ArrayList<>();
         floors.add(carParkFloor);
+    }
+
+    public CarParkFloor getByFloorIdentifier(String floorIdentifier) {
+        if (floors != null){
+            for (CarParkFloor floor: floors) {
+                if (floor.getFloorIdentifier() == floorIdentifier){
+                    return floor;
+                }
+            }
+        }
+        return null;
     }
 
     public CarPark(String name, String address, Integer pricePerHour) {

@@ -3,12 +3,10 @@ package sk.stuba.fei.uim.vsa.pr1b;
 import sk.stuba.fei.uim.vsa.pr1b.entities.Car;
 import sk.stuba.fei.uim.vsa.pr1b.entities.CarPark;
 import sk.stuba.fei.uim.vsa.pr1b.entities.CarParkFloor;
+import sk.stuba.fei.uim.vsa.pr1b.entities.ParkingSpot;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CarParkService extends  AbstractCarParkService{
 
@@ -117,13 +115,16 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object getCarParkFloor(Long carParkFloorId) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        CarParkFloor carParkFloor = manager.find(CarParkFloor.class, carParkFloorId);
+        return carParkFloor;
     }
 
     @Override
     public List<Object> getCarParkFloors(Long carParkId) {
         EntityManager manager = emf.createEntityManager();
         CarPark carPark = manager.find(CarPark.class, carParkId);
+        System.out.println(carPark.getFloors());
         return Collections.singletonList(carPark.getFloors());
     }
 
@@ -134,22 +135,54 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object deleteCarParkFloor(Long carParkFloorId) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        CarParkFloor carParkFloor = manager.find(CarParkFloor.class, carParkFloorId);
+        CarPark carPark = manager.find(CarPark.class, 2L); //zleeee
+        carPark.getFloors().remove(carParkFloor);
+        if (carParkFloor != null) {
+            EntityTransaction transaction = manager.getTransaction();
+            transaction.begin();
+            manager.remove(carParkFloor);
+            transaction.commit();
+            return carParkFloor;
+        }else {
+            return null;
+        }
     }
 
     @Override
     public Object createParkingSpot(Long carParkId, String floorIdentifier, String spotIdentifier) {
+        EntityManager manager = emf.createEntityManager();
+        CarPark carPark = manager.find(CarPark.class, carParkId);
+        if(carPark != null){
+            CarParkFloor carParkFloor = carPark.getByFloorIdentifier(floorIdentifier);
+            if (carParkFloor != null){
+                ParkingSpot parkingSpot = new ParkingSpot();
+                parkingSpot.setSpotIdentifier(spotIdentifier);
+                carParkFloor.addParkingSpot(parkingSpot);
+                manager.getTransaction().begin();
+                manager.persist(carParkFloor);
+                manager.getTransaction().commit();
+                return parkingSpot;
+            }
+        }
         return null;
     }
 
     @Override
     public Object getParkingSpot(Long parkingSpotId) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        ParkingSpot parkingSpot = manager.find(ParkingSpot.class, parkingSpotId);
+        return parkingSpot;
     }
 
     @Override
     public List<Object> getParkingSpots(Long carParkId, String floorIdentifier) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        CarPark carPark = manager.find(CarPark.class, carParkId);
+        CarParkFloor carParkFloor = carPark.getByFloorIdentifier(floorIdentifier);
+        List<ParkingSpot> parkingSpots = carParkFloor.getParkingSpots();
+        return Collections.singletonList(parkingSpots);
     }
 
     @Override
