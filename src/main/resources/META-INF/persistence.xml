@@ -8,6 +8,8 @@
         <class>sk.stuba.fei.uim.vsa.pr1b.entities.CarPark</class>
         <class>sk.stuba.fei.uim.vsa.pr1b.entities.CarParkFloor</class>
         <class>sk.stuba.fei.uim.vsa.pr1b.entities.ParkingSpot</class>
+        <class>sk.stuba.fei.uim.vsa.pr1b.entities.User</class>
+        <class>sk.stuba.fei.uim.vsa.pr1b.entities.Reservation</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>

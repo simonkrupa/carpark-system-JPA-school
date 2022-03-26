@@ -1,12 +1,10 @@
 package sk.stuba.fei.uim.vsa.pr1b;
 
-import sk.stuba.fei.uim.vsa.pr1b.entities.Car;
-import sk.stuba.fei.uim.vsa.pr1b.entities.CarPark;
-import sk.stuba.fei.uim.vsa.pr1b.entities.CarParkFloor;
-import sk.stuba.fei.uim.vsa.pr1b.entities.ParkingSpot;
+import sk.stuba.fei.uim.vsa.pr1b.entities.*;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CarParkService extends  AbstractCarParkService{
 
@@ -54,7 +52,7 @@ public class CarParkService extends  AbstractCarParkService{
     @Override
     public List<Object> getCarParks() {
         EntityManager manager = emf.createEntityManager();
-        Query query = manager.createNamedQuery("findAll");
+        Query query = manager.createNamedQuery("findAllCarParks");
         return query.getResultList();
     }
 
@@ -187,7 +185,19 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Map<String, List<Object>> getParkingSpots(Long carParkId) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        CarPark carPark = manager.find(CarPark.class, carParkId);
+        Map<String, List<Object>> map = new HashMap<>(Collections.emptyMap());
+        if (carPark != null){
+            for (CarParkFloor carParkFloor: carPark.getFloors()) {
+                String entryString = carParkFloor.getFloorIdentifier();
+                List<Object> entryList = new ArrayList<>();
+                entryList.addAll(carParkFloor.getParkingSpots());
+                map.put(entryString, entryList);
+                System.out.println("smt");
+            }
+        }
+        return map;
     }
 
     @Override
@@ -212,21 +222,48 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object createCar(Long userId, String brand, String model, String colour, String vehicleRegistrationPlate) {
-        return null;
+        Car car = new Car();
+        car.setBrand(brand);
+        car.setModel(model);
+        car.setColour(colour);
+        car.setVehicleRegistrationPlate(vehicleRegistrationPlate);
+        EntityManager manager = emf.createEntityManager();
+        User user = manager.find(User.class, userId);
+        user.addCar(car);
+        //if
+        car.setUser(user);
+        manager.getTransaction().begin();
+        manager.persist(car);
+        manager.getTransaction().commit();
+        return car;
     }
 
     @Override
     public Object getCar(Long carId) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        Car car = manager.find(Car.class, carId);
+        return car;
     }
 
     @Override
     public Object getCar(String vehicleRegistrationPlate) {
-        return null;
+        try {
+            EntityManager manager = emf.createEntityManager();
+            Query query = manager.createNamedQuery("findByPlate");
+            query.setParameter("plate", vehicleRegistrationPlate);
+            return query.getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override
     public List<Object> getCars(Long userId) {
+        EntityManager manager = emf.createEntityManager();
+        User user = manager.find(User.class, userId);
+        if (user!= null){
+            return user.getCars().stream().collect(Collectors.toList());
+        }
         return null;
     }
 
@@ -237,27 +274,53 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object deleteCar(Long carId) {
+        EntityManager manager = emf.createEntityManager();
+        Car car = manager.find(Car.class, carId);
+        if (car != null){
+            car.getUser().getCars().remove(car);
+            manager.getTransaction().begin();
+            manager.remove(car);
+            manager.getTransaction().commit();
+
+            return car;
+        }
         return null;
     }
 
     @Override
     public Object createUser(String firstname, String lastname, String email) {
-        return null;
+        User user = new User();
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setEmail(email);
+        persist(user);
+        return user;
     }
 
     @Override
     public Object getUser(Long userId) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        User user = manager.find(User.class, userId);
+        return user;
     }
 
     @Override
     public Object getUser(String email) {
-        return null;
+        try {
+            EntityManager manager = emf.createEntityManager();
+            Query query = manager.createNamedQuery("findByEmail");
+            query.setParameter("email", email);
+            return query.getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override
     public List<Object> getUsers() {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        Query query = manager.createNamedQuery("findAllUsers");
+        return query.getResultList();
     }
 
     @Override
@@ -267,6 +330,14 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object deleteUser(Long userId) {
+        EntityManager manager = emf.createEntityManager();
+        User user = manager.find(User.class, userId);
+        if (user != null){
+            manager.getTransaction().begin();
+            manager.remove(user);
+            manager.getTransaction().commit();
+            return user;//try catch
+        }
         return null;
     }
 
