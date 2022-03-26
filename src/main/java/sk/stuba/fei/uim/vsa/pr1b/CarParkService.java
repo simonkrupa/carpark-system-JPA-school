@@ -342,7 +342,10 @@ public class CarParkService extends  AbstractCarParkService{
     }
 
     @Override
-    public Object createReservation(Long parkingSpotId, Long cardId) {
+    public Object createReservation(Long parkingSpotId, Long carId) {
+        EntityManager manager = emf.createEntityManager();
+        manager.find(Car.class, carId);
+
         return null;
     }
 

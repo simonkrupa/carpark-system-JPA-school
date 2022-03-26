@@ -327,10 +327,10 @@ public abstract class AbstractCarParkService {
      * Vytvorenie rezervácie pre zaparkované auto. Pri vytvorení rezervácie je do nej zapísaný dátum a čas začatia rezervácie.
      *
      * @param parkingSpotId id parkovacieho miesta
-     * @param cardId        id auta
+     * @param carId        id auta
      * @return objekt rezervácie
      */
-    public abstract Object createReservation(Long parkingSpotId, Long cardId);
+    public abstract Object createReservation(Long parkingSpotId, Long carId);
 
     /**
      * Ukončenie rezervácie / parkovanie auta. Pri ukončení parkovania je zapísaný čas ukončenia rezervácie a vypočítaná celková cena za parkovanie.
