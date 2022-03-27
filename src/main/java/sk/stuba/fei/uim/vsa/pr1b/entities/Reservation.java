@@ -9,12 +9,32 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long reservationId;
-    private Date date;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
+    private Integer cost;
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
 
     @OneToOne
     private Car car;
 
-    @OneToOne
+    @ManyToOne
     private ParkingSpot parkingSpot;
 
     public Reservation() {
@@ -28,12 +48,12 @@ public class Reservation implements Serializable {
         this.reservationId = reservationId;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Car getCar() {

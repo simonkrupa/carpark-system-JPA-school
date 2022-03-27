@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -14,6 +15,23 @@ public class ParkingSpot implements Serializable {
     private Long parkingSpotId;
     private String spotIdentifier;
 
+    @OneToMany(mappedBy = "parkingSpot")
+    private List<Reservation> reservations;
+
+    public void addReservation(Reservation reservation){
+        if (reservations == null){
+            reservations = new ArrayList<>();
+        }
+        reservations.add(reservation);
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 
     public ParkingSpot(String spotIdentifier) {
         this.spotIdentifier = spotIdentifier;

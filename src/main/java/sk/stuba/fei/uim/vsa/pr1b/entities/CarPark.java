@@ -15,8 +15,10 @@ public class CarPark implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long carParkId;
+    @Column(unique = true, nullable = false)
     private String name;
     private String address;
+    @Column(nullable = false)
     private Integer pricePerHour;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,7 +41,8 @@ public class CarPark implements Serializable {
     public CarParkFloor getByFloorIdentifier(String floorIdentifier) {
         if (floors != null){
             for (CarParkFloor floor: floors) {
-                if (floor.getFloorIdentifier() == floorIdentifier){
+                System.out.println(floor.getFloorIdentifier());
+                if (floor.getFloorIdentifier().equals(floorIdentifier)){
                     return floor;
                 }
             }

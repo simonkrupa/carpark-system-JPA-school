@@ -15,6 +15,17 @@ public class Car implements Serializable {
     private String colour;
     private String vehicleRegistrationPlate;
 
+    @OneToOne
+    private Reservation reservation;
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
     @ManyToOne
     private User user;
 

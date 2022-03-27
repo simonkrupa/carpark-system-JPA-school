@@ -8,12 +8,24 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@NamedQuery(name = "findByFloorIdentifier", query = "select cpf from CarParkFloor cpf where cpf.floorIdentifier =:identifier and cpf.carParkFloorId=:floorId")
 public class CarParkFloor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long carParkFloorId;
-
     private String floorIdentifier;
+
+    @ManyToOne
+    private CarPark carPark;
+
+    public CarPark getCarPark() {
+        return carPark;
+    }
+
+    public void setCarPark(CarPark carPark) {
+        this.carPark = carPark;
+    }
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<ParkingSpot> parkingSpots;
 
