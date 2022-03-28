@@ -48,6 +48,17 @@ public class Project1B {
         Object parkingSpot3 = carParkService.deleteParkingSpot(7L);
 //        Map<String, List<Object>> map = carParkService.getParkingSpots(2L);
         List<Object> listCarParks = carParkService.getCarParks();
+        Object user = carParkService.createUser("Simon", "Krupa", "hoco@email.com");
+        Object user1 = carParkService.createUser("Simon", "Krupa", "hoo@email.com");
+        Object u = carParkService.getUser("hoco@email.com");
+//        Object deletedUser = carParkService.deleteUser(9L);
+        Object car = carParkService.createCar(9L, "ford", "mondeo", "black", "XZY");
+        Object car2 = carParkService.createCar(10L, "A", "B", "C", "XZ");
+        List<Object> users = carParkService.getUsers();
+        Object car3 = carParkService.getCar(11L);
+        Object car4 = carParkService.getCar("XZY");
+        List<Object> cars = carParkService.getCars(10L);
+        Object delCar = carParkService.deleteCar(11L);
         System.out.println("aaa");
 
 

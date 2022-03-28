@@ -14,7 +14,9 @@ public class User implements Serializable {
     private Long userId;
     private String firstname;
     private String lastname;
+    @Column(nullable = false, unique = true)
     private String email;
+
     @OneToMany(mappedBy = "user")
     private List<Car> cars;
 

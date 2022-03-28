@@ -13,6 +13,7 @@ public class Car implements Serializable {
     private String brand;
     private String model;
     private String colour;
+    @Column(nullable = false, unique = true)
     private String vehicleRegistrationPlate;
 
     @OneToOne

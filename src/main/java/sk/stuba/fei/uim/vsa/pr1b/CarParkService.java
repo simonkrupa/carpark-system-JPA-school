@@ -300,20 +300,28 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object createCar(Long userId, String brand, String model, String colour, String vehicleRegistrationPlate) {
-        Car car = new Car();
-        car.setBrand(brand);
-        car.setModel(model);
-        car.setColour(colour);
-        car.setVehicleRegistrationPlate(vehicleRegistrationPlate);
-        EntityManager manager = emf.createEntityManager();
-        User user = manager.find(User.class, userId);
-        user.addCar(car);
-        //if
-        car.setUser(user);
-        manager.getTransaction().begin();
-        manager.persist(car);
-        manager.getTransaction().commit();
-        return car;
+        if(vehicleRegistrationPlate!=null) {
+            try {
+                Car car = new Car();
+                car.setBrand(brand);
+                car.setModel(model);
+                car.setColour(colour);
+                car.setVehicleRegistrationPlate(vehicleRegistrationPlate);
+                EntityManager manager = emf.createEntityManager();
+                User user = manager.find(User.class, userId);
+                if(user!=null) {
+                    user.addCar(car);
+                    car.setUser(user);
+                    manager.getTransaction().begin();
+                    manager.persist(car);
+                    manager.getTransaction().commit();
+                    return car;
+                }
+            }catch(Exception e){
+                return null;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -359,7 +367,6 @@ public class CarParkService extends  AbstractCarParkService{
             manager.getTransaction().begin();
             manager.remove(car);
             manager.getTransaction().commit();
-
             return car;
         }
         return null;
@@ -367,12 +374,23 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object createUser(String firstname, String lastname, String email) {
-        User user = new User();
-        user.setFirstname(firstname);
-        user.setLastname(lastname);
-        user.setEmail(email);
-        persist(user);
-        return user;
+        if (email != null) {
+            try {
+                EntityManager manager = emf.createEntityManager();
+                User user = new User();
+                user.setFirstname(firstname);
+                user.setLastname(lastname);
+                user.setEmail(email);
+                manager.getTransaction().begin();
+                manager.persist(user);
+                manager.getTransaction().commit();
+                return user;
+            }catch (Exception e){
+                return null;
+            }
+
+        }
+        return null;
     }
 
     @Override
@@ -384,14 +402,17 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object getUser(String email) {
-        try {
-            EntityManager manager = emf.createEntityManager();
-            Query query = manager.createNamedQuery("findByEmail");
-            query.setParameter("email", email);
-            return query.getSingleResult();
-        } catch (NoResultException e){
-            return null;
+        if(email!=null) {
+            try {
+                EntityManager manager = emf.createEntityManager();
+                Query query = manager.createNamedQuery("findByEmail");
+                query.setParameter("email", email);
+                return query.getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
         }
+        return null;
     }
 
     @Override
@@ -411,10 +432,14 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         User user = manager.find(User.class, userId);
         if (user != null){
-            manager.getTransaction().begin();
-            manager.remove(user);
-            manager.getTransaction().commit();
-            return user;//try catch
+            try {
+                manager.getTransaction().begin();
+                manager.remove(user);
+                manager.getTransaction().commit();
+                return user;
+            }catch (Exception e){
+                return null;
+            }
         }
         return null;
     }
