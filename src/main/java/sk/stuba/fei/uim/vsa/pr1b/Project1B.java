@@ -43,9 +43,11 @@ public class Project1B {
 
         Object parkingSpot = carParkService.createParkingSpot(1L, "algo", "bueno");
         Object parkingSpot2 = carParkService.createParkingSpot(1L, "algo", "bu");
-        List<Object> listCarParks = carParkService.getCarParks();
+
         List<Object> pss = carParkService.getParkingSpots(3L, "algo");
-        Map<String, List<Object>> map = carParkService.getParkingSpots(1L);
+        Object parkingSpot3 = carParkService.deleteParkingSpot(7L);
+//        Map<String, List<Object>> map = carParkService.getParkingSpots(2L);
+        List<Object> listCarParks = carParkService.getCarParks();
         System.out.println("aaa");
 
 

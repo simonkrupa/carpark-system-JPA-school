@@ -18,6 +18,17 @@ public class ParkingSpot implements Serializable {
     @OneToMany(mappedBy = "parkingSpot")
     private List<Reservation> reservations;
 
+    @ManyToOne
+    private CarParkFloor floor;
+
+    public CarParkFloor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(CarParkFloor floor) {
+        this.floor = floor;
+    }
+
     public void addReservation(Reservation reservation){
         if (reservations == null){
             reservations = new ArrayList<>();

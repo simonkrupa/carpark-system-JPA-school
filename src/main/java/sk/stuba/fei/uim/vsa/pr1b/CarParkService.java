@@ -219,6 +219,7 @@ public class CarParkService extends  AbstractCarParkService{
                 }
                 ParkingSpot parkingSpot = new ParkingSpot();
                 parkingSpot.setSpotIdentifier(spotIdentifier);
+                parkingSpot.setFloor(carParkFloor);
                 carParkFloor.addParkingSpot(parkingSpot);
                 manager.getTransaction().begin();
                 manager.persist(carParkFloor);
@@ -284,6 +285,16 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object deleteParkingSpot(Long parkingSpotId) {
+        EntityManager manager = emf.createEntityManager();
+        ParkingSpot parkingSpot = manager.find(ParkingSpot.class, parkingSpotId);
+        if(parkingSpot!=null){
+            CarParkFloor carParkFloor = parkingSpot.getFloor();
+            carParkFloor.getParkingSpots().remove(parkingSpot);
+            manager.getTransaction().begin();
+            manager.remove(parkingSpot);
+            manager.getTransaction().commit();
+            return parkingSpot;
+        }
         return null;
     }
 
