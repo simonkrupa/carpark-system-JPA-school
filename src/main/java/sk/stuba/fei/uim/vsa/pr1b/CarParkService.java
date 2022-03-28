@@ -402,6 +402,8 @@ public class CarParkService extends  AbstractCarParkService{
         Car car = manager.find(Car.class, carId);
         if (car != null){
             car.getUser().getCars().remove(car);
+            car.getReservations().forEach(reservation -> endReservation(reservation.getReservationId()));
+            car.getReservations().forEach(reservation -> reservation.setCar(null));
             manager.getTransaction().begin();
             manager.remove(car);
             manager.getTransaction().commit();
@@ -470,14 +472,16 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         User user = manager.find(User.class, userId);
         if (user != null){
-            try {
+            //try {
+                user.getCars().forEach(car -> car.getReservations().forEach(reservation -> endReservation(reservation.getReservationId())));
+                user.getCars().forEach(car -> car.getReservations().forEach(reservation -> reservation.setCar(null)));
                 manager.getTransaction().begin();
                 manager.remove(user);
                 manager.getTransaction().commit();
                 return user;
-            }catch (Exception e){
-                return null;
-            }
+//            }catch (Exception e){
+//                return null;
+//            }
         }
         return null;
     }

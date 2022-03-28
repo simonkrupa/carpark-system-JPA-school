@@ -81,7 +81,9 @@ public class Project1B {
         Map<String, List<Object>> mapAvailSpots4 = carParkService.getOccupiedParkingSpots("AB");
 //        Object deleteFloor = carParkService.deleteCarParkFloor(5L);
 //        Object deleteSpot = carParkService.deleteParkingSpot(8L);
-        Object delcarpark = carParkService.deleteCarPark(1L);
+//        Object delcarpark = carParkService.deleteCarPark(1L);
+//        Object delCar = carParkService.deleteCar(16L);
+        Object delUser = carParkService.deleteUser(14L);
         List<Object> listCarParks = carParkService.getCarParks();
         System.out.println("aaa");
 
