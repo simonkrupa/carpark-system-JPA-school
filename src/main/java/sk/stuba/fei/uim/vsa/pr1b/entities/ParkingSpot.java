@@ -36,6 +36,41 @@ public class ParkingSpot implements Serializable {
         reservations.add(reservation);
     }
 
+    public Reservation getActiveReservation(){
+        if(reservations!=null){
+            if(reservations.size()>0) {
+                if (reservations.get(reservations.size() - 1).getEndDate() == null) {
+                    return reservations.get(reservations.size() - 1);
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean isAvailable(){
+        if(reservations==null){
+            return true;
+        }
+        if(reservations.size()==0){
+            return true;
+        }
+        if(!reservations.isEmpty()){
+            if(reservations.get(reservations.size()-1).getEndDate()!=null){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isOccupied(){
+        if(!reservations.isEmpty()){
+            if(reservations.get(reservations.size()-1).getEndDate()==null){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Reservation> getReservations() {
         return reservations;
     }

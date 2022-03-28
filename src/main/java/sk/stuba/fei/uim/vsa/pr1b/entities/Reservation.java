@@ -31,7 +31,8 @@ public class Reservation implements Serializable {
         this.cost = cost;
     }
 
-    @OneToOne
+
+    @ManyToOne
     private Car car;
 
     @ManyToOne

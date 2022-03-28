@@ -5,6 +5,7 @@ import sk.stuba.fei.uim.vsa.pr1b.entities.CarParkFloor;
 import sk.stuba.fei.uim.vsa.pr1b.entities.ParkingSpot;
 import sk.stuba.fei.uim.vsa.pr1b.entities.User;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,22 +44,45 @@ public class Project1B {
 
         Object parkingSpot = carParkService.createParkingSpot(1L, "algo", "bueno");
         Object parkingSpot2 = carParkService.createParkingSpot(1L, "algo", "bu");
+        Object parkingSpot3 = carParkService.createParkingSpot(1L, "algo", "be");
+        Object parkingSpot4 = carParkService.createParkingSpot(1L, "algo", "bc");
+        Object parkingSpot5 = carParkService.createParkingSpot(1L, "algo", "eee");
+        Object parkingSpot6 = carParkService.createParkingSpot(1L, "algo", "nn");
+        Object parkingSpot7 = carParkService.createParkingSpot(1L, "algo", "ou");
 
         List<Object> pss = carParkService.getParkingSpots(3L, "algo");
-        Object parkingSpot3 = carParkService.deleteParkingSpot(7L);
+        Object parkingSpot8 = carParkService.deleteParkingSpot(7L);
 //        Map<String, List<Object>> map = carParkService.getParkingSpots(2L);
-        List<Object> listCarParks = carParkService.getCarParks();
+
         Object user = carParkService.createUser("Simon", "Krupa", "hoco@email.com");
-        Object user1 = carParkService.createUser("Simon", "Krupa", "hoo@email.com");
-        Object u = carParkService.getUser("hoco@email.com");
+        Object user1 = carParkService.createUser("Jozef", "Kaka", "kaka@email.com");
+
 //        Object deletedUser = carParkService.deleteUser(9L);
-        Object car = carParkService.createCar(9L, "ford", "mondeo", "black", "XZY");
-        Object car2 = carParkService.createCar(10L, "A", "B", "C", "XZ");
-        List<Object> users = carParkService.getUsers();
-        Object car3 = carParkService.getCar(11L);
-        Object car4 = carParkService.getCar("XZY");
-        List<Object> cars = carParkService.getCars(10L);
-        Object delCar = carParkService.deleteCar(11L);
+        Object car = carParkService.createCar(14L, "ford", "mondeo", "black", "XZY");
+        Object car2 = carParkService.createCar(14L, "A", "B", "C", "XZ");
+        Object car3 = carParkService.createCar(15L, "ford", "fiesta", "x", "PPP");
+        Object car4 = carParkService.createCar(15L, "skoda", "octavia", "biela", "LLL");
+//        List<Object> users = carParkService.getUsers();
+//        Object car3 = carParkService.getCar(11L);
+//        Object car4 = carParkService.getCar("XZY");
+//        List<Object> cars = carParkService.getCars(10L);
+//        Object delCar = carParkService.deleteCar(11L);
+        Object reservation = carParkService.createReservation(8L, 16L);
+        Object reservation2 = carParkService.createReservation(9L, 17L);
+        Object reservation3 = carParkService.createReservation(10L, 18L);
+        TimeUnit.SECONDS.sleep(5);
+        Object endRes = carParkService.endReservation(21L);
+        List<Object> ress = carParkService.getReservations(8L, new Date());
+        List<Object> resss = carParkService.getMyReservations(10L);
+
+        Map<String, List<Object>> mapAvailSpots = carParkService.getAvailableParkingSpots("VB");
+        Map<String, List<Object>> map2 = carParkService.getAvailableParkingSpots("AB");
+        Map<String, List<Object>> mapAvailSpots3 = carParkService.getOccupiedParkingSpots("VB");
+        Map<String, List<Object>> mapAvailSpots4 = carParkService.getOccupiedParkingSpots("AB");
+//        Object deleteFloor = carParkService.deleteCarParkFloor(5L);
+//        Object deleteSpot = carParkService.deleteParkingSpot(8L);
+        Object delcarpark = carParkService.deleteCarPark(1L);
+        List<Object> listCarParks = carParkService.getCarParks();
         System.out.println("aaa");
 
 

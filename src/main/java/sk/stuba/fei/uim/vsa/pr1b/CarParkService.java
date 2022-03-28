@@ -112,6 +112,8 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         CarPark carPark = manager.find(CarPark.class, carParkId);
         if (carPark != null) {
+            carPark.getFloors().forEach(floor -> floor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> endReservation(reservation.getReservationId()))));
+            carPark.getFloors().forEach(floor -> floor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> reservation.setParkingSpot(null))));
             EntityTransaction transaction = manager.getTransaction();
             transaction.begin();
             manager.remove(carPark);
@@ -192,6 +194,8 @@ public class CarParkService extends  AbstractCarParkService{
         if (carParkFloor != null) {
             CarPark carPark = carParkFloor.getCarPark();
             carPark.getFloors().remove(carParkFloor);
+            carParkFloor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> endReservation(reservation.getReservationId())));
+            carParkFloor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> reservation.setParkingSpot(null)));
             EntityTransaction transaction = manager.getTransaction();
             transaction.begin();
             manager.remove(carParkFloor);
@@ -270,11 +274,43 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Map<String, List<Object>> getAvailableParkingSpots(String carParkName) {
+        Object carPark = getCarPark(carParkName);
+        if(carPark instanceof CarPark){
+            Map<String, List<Object>> map = new HashMap<>();
+            List<CarParkFloor> carParkFloors = ((CarPark) carPark).getFloors();
+            for (CarParkFloor carParkFloor: carParkFloors){
+                List<ParkingSpot> parkingSpots = carParkFloor.getParkingSpots();
+                List<ParkingSpot> parkingSpotsEntry = new ArrayList<>();
+                for(ParkingSpot parkingSpot: parkingSpots){
+                    if(parkingSpot.isAvailable()){
+                        parkingSpotsEntry.add(parkingSpot);
+                    }
+                }
+                map.put(carParkFloor.getFloorIdentifier(), Arrays.asList(parkingSpotsEntry.toArray()));
+            }
+            return map;
+        }
         return null;
     }
 
     @Override
     public Map<String, List<Object>> getOccupiedParkingSpots(String carParkName) {
+        Object carPark = getCarPark(carParkName);
+        if(carPark instanceof CarPark){
+            Map<String, List<Object>> map = new HashMap<>();
+            List<CarParkFloor> carParkFloors = ((CarPark) carPark).getFloors();
+            for (CarParkFloor carParkFloor: carParkFloors){
+                List<ParkingSpot> parkingSpots = carParkFloor.getParkingSpots();
+                List<ParkingSpot> parkingSpotsEntry = new ArrayList<>();
+                for(ParkingSpot parkingSpot: parkingSpots){
+                    if(parkingSpot.isOccupied()){
+                        parkingSpotsEntry.add(parkingSpot);
+                    }
+                }
+                map.put(carParkFloor.getFloorIdentifier(), Arrays.asList(parkingSpotsEntry.toArray()));
+            }
+            return map;
+        }
         return null;
     }
 
@@ -290,6 +326,8 @@ public class CarParkService extends  AbstractCarParkService{
         if(parkingSpot!=null){
             CarParkFloor carParkFloor = parkingSpot.getFloor();
             carParkFloor.getParkingSpots().remove(parkingSpot);
+            parkingSpot.getReservations().forEach(reservation -> endReservation(reservation.getReservationId()));
+            parkingSpot.getReservations().forEach(reservation -> reservation.setParkingSpot(null));
             manager.getTransaction().begin();
             manager.remove(parkingSpot);
             manager.getTransaction().commit();
@@ -449,17 +487,22 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         Car car = manager.find(Car.class, carId);
         if(car != null){
-            ParkingSpot parkingSpot = manager.find(ParkingSpot.class, parkingSpotId);
-            if (parkingSpot != null){
-                Reservation reservation = new Reservation();
-                reservation.setCar(car);
-                reservation.setParkingSpot(parkingSpot);
-                reservation.setStartDate(new Date());
-                parkingSpot.addReservation(reservation);
-                manager.getTransaction().begin();
-                manager.persist(reservation);
-                manager.getTransaction().commit();
-                return reservation;
+            if(car.getActiveReservation() == null) {
+                ParkingSpot parkingSpot = manager.find(ParkingSpot.class, parkingSpotId);
+                if (parkingSpot != null) {
+                    if (parkingSpot.getActiveReservation() == null) {
+                        Reservation reservation = new Reservation();
+                        reservation.setCar(car);
+                        reservation.setParkingSpot(parkingSpot);
+                        reservation.setStartDate(new Date());
+                        parkingSpot.addReservation(reservation);
+                        car.addReservation(reservation);
+                        manager.getTransaction().begin();
+                        manager.persist(reservation);
+                        manager.getTransaction().commit();
+                        return reservation;
+                    }
+                }
             }
         }
         return null;
@@ -470,33 +513,23 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         Reservation reservation = manager.find(Reservation.class, reservationId);
         if (reservation != null){
-            Date endDate = new Date();
-            reservation.setEndDate(endDate);
-            long secs = (endDate.getTime() - reservation.getStartDate().getTime()) / 1000;
-            long hours = secs / 3600;
-            if(secs>0) {
-                hours++;
-            }
-            System.out.println(hours);
-            reservation.getParkingSpot();
-            for (Object carPark: getCarParks()) {
-                if(carPark instanceof CarPark) {
-                    for (Object carParkFloor : ((CarPark) carPark).getFloors()) {
-                        if(carParkFloor instanceof CarParkFloor){
-                            boolean b = ((CarParkFloor) carParkFloor).getParkingSpots().stream().filter(o -> o.getParkingSpotId().equals(reservation.getParkingSpot().getParkingSpotId())).findFirst().isPresent();
-                            if (b) {
-                               reservation.setCost(((CarPark) carPark).getPricePerHour());
-                               break;
-                            }
-                        }
-                    }
+            if(reservation.getEndDate() == null) {
+                Date endDate = new Date();
+                reservation.setEndDate(endDate);
+                Long secs = (endDate.getTime() - reservation.getStartDate().getTime()) / 1000;
+                Long hours = secs / 3600;
+                if (secs > 0) {
+                    hours++;
                 }
-
+                Integer hours2 = hours.intValue();
+                Integer price = reservation.getParkingSpot().getFloor().getCarPark().getPricePerHour();
+                Integer cost = price * hours2;
+                reservation.setCost(cost);
+                manager.getTransaction().begin();
+                manager.persist(reservation);
+                manager.getTransaction().commit();
+                return reservation;
             }
-            manager.getTransaction().begin();
-            manager.persist(reservation);
-            manager.getTransaction().commit();
-            return reservation;
         }
         return null;
     }
@@ -524,14 +557,15 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         User user = manager.find(User.class, userId);
         if(user!=null){
-            if(user.getCars()!=null){
-                List<Car> u = new ArrayList<>(user.getCars());
-                List<Object> reservations = new ArrayList<>();
-                for (Car c: u) {
-                    reservations.add(c.getReservation());
+            List<Reservation> myActiveReservations = new ArrayList<>();
+            List<Car> cars = user.getCars();
+            for(Car c: cars){
+                Reservation myReservation = c.getActiveReservation();
+                if(myReservation!=null) {
+                    myActiveReservations.add(myReservation);
                 }
-                return reservations;
             }
+            return myActiveReservations.stream().collect(Collectors.toList());
         }
         return null;
     }

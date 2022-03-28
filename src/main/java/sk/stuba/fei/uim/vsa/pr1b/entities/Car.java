@@ -2,6 +2,8 @@ package sk.stuba.fei.uim.vsa.pr1b.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -16,15 +18,34 @@ public class Car implements Serializable {
     @Column(nullable = false, unique = true)
     private String vehicleRegistrationPlate;
 
-    @OneToOne
-    private Reservation reservation;
+    @OneToMany
+    private List<Reservation> reservations;
 
-    public Reservation getReservation() {
-        return reservation;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public void addReservation(Reservation reservation){
+        if(reservations == null)
+        {
+            reservations = new ArrayList<>();
+        }
+        reservations.add(reservation);
+    }
+
+    public Reservation getActiveReservation(){
+        if(reservations!=null){
+            if(reservations.size()>0) {
+                if (reservations.get(reservations.size() - 1).getEndDate() == null) {
+                    return reservations.get(reservations.size() - 1);
+                }
+            }
+        }
+        return null;
     }
 
     @ManyToOne

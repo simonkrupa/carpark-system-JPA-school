@@ -26,7 +26,7 @@ public class CarParkFloor implements Serializable {
         this.carPark = carPark;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParkingSpot> parkingSpots;
 
     public List<ParkingSpot> getParkingSpots() {
