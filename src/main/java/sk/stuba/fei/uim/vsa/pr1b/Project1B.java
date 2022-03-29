@@ -1,9 +1,6 @@
 package sk.stuba.fei.uim.vsa.pr1b;
 
-import sk.stuba.fei.uim.vsa.pr1b.entities.CarPark;
-import sk.stuba.fei.uim.vsa.pr1b.entities.CarParkFloor;
-import sk.stuba.fei.uim.vsa.pr1b.entities.ParkingSpot;
-import sk.stuba.fei.uim.vsa.pr1b.entities.User;
+import sk.stuba.fei.uim.vsa.pr1b.entities.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -85,6 +82,14 @@ public class Project1B {
 //        Object delCar = carParkService.deleteCar(16L);
         Object delUser = carParkService.deleteUser(14L);
         List<Object> listCarParks = carParkService.getCarParks();
+
+        Object carType1 = carParkService.createCarType("benzin");
+        Object carType2 = carParkService.createCarType("diesel");
+        List<Object> listCarTypes = carParkService.getCarTypes();
+        Object carType3 = carParkService.getCarType("diesel");
+        Object carType4 = carParkService.getCarType("diese");
+        Object carType5 = carParkService.getCarType(23L);
+
         System.out.println("aaa");
 
 

@@ -10,6 +10,7 @@
         <class>sk.stuba.fei.uim.vsa.pr1b.entities.ParkingSpot</class>
         <class>sk.stuba.fei.uim.vsa.pr1b.entities.User</class>
         <class>sk.stuba.fei.uim.vsa.pr1b.entities.Reservation</class>
+        <class>sk.stuba.fei.uim.vsa.pr1b.entities.CarType</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>

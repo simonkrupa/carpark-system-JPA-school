@@ -472,16 +472,16 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         User user = manager.find(User.class, userId);
         if (user != null){
-            //try {
+            try {
                 user.getCars().forEach(car -> car.getReservations().forEach(reservation -> endReservation(reservation.getReservationId())));
                 user.getCars().forEach(car -> car.getReservations().forEach(reservation -> reservation.setCar(null)));
                 manager.getTransaction().begin();
                 manager.remove(user);
                 manager.getTransaction().commit();
                 return user;
-//            }catch (Exception e){
-//                return null;
-//            }
+            }catch (Exception e){
+                return null;
+            }
         }
         return null;
     }
@@ -581,26 +581,64 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object createCarType(String name) {
+        if (name!=null) {
+            try {
+                EntityManager manager = emf.createEntityManager();
+                CarType carType = new CarType();
+                carType.setName(name);
+                manager.getTransaction().begin();
+                manager.persist(carType);
+                manager.getTransaction().commit();
+                return carType;
+            }catch (Exception e){
+                return null;
+            }
+        }
         return null;
     }
 
     @Override
     public List<Object> getCarTypes() {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        Query query = manager.createNamedQuery("findAllCarTypes");
+        return query.getResultList();
     }
 
     @Override
     public Object getCarType(Long carTypeId) {
+        if(carTypeId!=null){
+            EntityManager manager = emf.createEntityManager();
+            CarType carType = manager.find(CarType.class, carTypeId);
+            return carType;
+        }
         return null;
     }
 
     @Override
     public Object getCarType(String name) {
+        if(name!=null){
+            try {
+                EntityManager manager = emf.createEntityManager();
+                Query query = manager.createNamedQuery("findCarTypeByName");
+                query.setParameter("name", name);
+                return query.getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+        }
         return null;
     }
 
     @Override
     public Object deleteCarType(Long carTypeId) {
+        EntityManager manager = emf.createEntityManager();
+        CarType carType = manager.find(CarType.class, carTypeId);
+        if(carType!=null){
+            manager.getTransaction().begin();
+            manager.remove(carType);
+            manager.getTransaction().commit();
+            return carType;
+        }
         return null;
     }
 
