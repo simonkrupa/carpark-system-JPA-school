@@ -114,6 +114,7 @@ public class CarParkService extends  AbstractCarParkService{
         if (carPark != null) {
             carPark.getFloors().forEach(floor -> floor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> endReservation(reservation.getReservationId()))));
             carPark.getFloors().forEach(floor -> floor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> reservation.setParkingSpot(null))));
+            carPark.getFloors().forEach(floor -> floor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getCarType().getParkingSpots().remove(parkingSpot)));
             EntityTransaction transaction = manager.getTransaction();
             transaction.begin();
             manager.remove(carPark);
@@ -196,6 +197,7 @@ public class CarParkService extends  AbstractCarParkService{
             carPark.getFloors().remove(carParkFloor);
             carParkFloor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> endReservation(reservation.getReservationId())));
             carParkFloor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getReservations().forEach(reservation -> reservation.setParkingSpot(null)));
+            carParkFloor.getParkingSpots().forEach(parkingSpot -> parkingSpot.getCarType().getParkingSpots().remove(parkingSpot));
             EntityTransaction transaction = manager.getTransaction();
             transaction.begin();
             manager.remove(carParkFloor);
@@ -334,6 +336,7 @@ public class CarParkService extends  AbstractCarParkService{
             carParkFloor.getParkingSpots().remove(parkingSpot);
             parkingSpot.getReservations().forEach(reservation -> endReservation(reservation.getReservationId()));
             parkingSpot.getReservations().forEach(reservation -> reservation.setParkingSpot(null));
+            parkingSpot.getCarType().getParkingSpots().remove(parkingSpot);
             manager.getTransaction().begin();
             manager.remove(parkingSpot);
             manager.getTransaction().commit();
@@ -490,6 +493,7 @@ public class CarParkService extends  AbstractCarParkService{
             try {
                 user.getCars().forEach(car -> car.getReservations().forEach(reservation -> endReservation(reservation.getReservationId())));
                 user.getCars().forEach(car -> car.getReservations().forEach(reservation -> reservation.setCar(null)));
+                user.getCars().forEach(car -> car.getCarType().getCars().remove(car));
                 manager.getTransaction().begin();
                 manager.remove(user);
                 manager.getTransaction().commit();
@@ -654,8 +658,10 @@ public class CarParkService extends  AbstractCarParkService{
             }
             Object defCarType = createDefaultCarType();
             carType.getCars().forEach(car -> car.setCarType((CarType) defCarType));
+            carType.getParkingSpots().forEach(parkingSpot -> parkingSpot.setCarType((CarType) defCarType));
             if(defCarType instanceof CarType){
                 carType.getCars().forEach(car -> ((CarType) defCarType).addCar(car));
+                carType.getParkingSpots().forEach(parkingSpot -> ((CarType) defCarType).addParkingSpot(parkingSpot));
             }
             manager.getTransaction().begin();
             manager.merge(defCarType);

@@ -46,19 +46,23 @@ public class Project1B {
         Object parkingSpot5 = carParkService.createParkingSpot(1L, "algo", "eee");
         Object parkingSpot6 = carParkService.createParkingSpot(1L, "algo", "nn");
         Object parkingSpot7 = carParkService.createParkingSpot(1L, "algo", "ou");
+        Object parkingSpot8 = carParkService.createParkingSpot(2L, "cc", "nn");
+        Object parkingSpot9 = carParkService.createParkingSpot(2L, "cc", "uu");
+        //Object delfloor = carParkService.deleteCarParkFloor(3L);
+        Object delspot = carParkService.deleteParkingSpot(8L);
 
         List<Object> pss = carParkService.getParkingSpots(3L, "algo");
-        Object parkingSpot8 = carParkService.deleteParkingSpot(7L);
+        Object parkingSpot10 = carParkService.deleteParkingSpot(7L);
 //        Map<String, List<Object>> map = carParkService.getParkingSpots(2L);
 
         Object user = carParkService.createUser("Simon", "Krupa", "hoco@email.com");
         Object user1 = carParkService.createUser("Jozef", "Kaka", "kaka@email.com");
 
 //        Object deletedUser = carParkService.deleteUser(9L);
-        Object car = carParkService.createCar(15L, "ford", "mondeo", "black", "XZY");
-        Object car2 = carParkService.createCar(16L, "A", "B", "C", "XZ");
-        Object car3 = carParkService.createCar(15L, "ford", "fiesta", "x", "PPP");
-        Object car4 = carParkService.createCar(16L, "skoda", "octavia", "biela", "LLL");
+        Object car = carParkService.createCar(17L, "ford", "mondeo", "black", "XZY");
+        Object car2 = carParkService.createCar(18L, "A", "B", "C", "XZ");
+        Object car3 = carParkService.createCar(17L, "ford", "fiesta", "x", "PPP");
+        Object car4 = carParkService.createCar(18L, "skoda", "octavia", "biela", "LLL");
 //        List<Object> users = carParkService.getUsers();
 //        Object car3 = carParkService.getCar(11L);
 //        Object car4 = carParkService.getCar("XZY");
@@ -85,12 +89,16 @@ public class Project1B {
 
 
         Object carType2 = carParkService.createCarType("diesel");
-        Object car10 = carParkService.createCar(16L, "skoda", "fabia", "red", "RRR", 17L);
+        Object car10 = carParkService.createCar(17L, "skoda", "fabia", "red", "RRR", 23L);
         List<Object> listCarTypes = carParkService.getCarTypes();
         Object carType3 = carParkService.getCarType("diesel");
         Object carType4 = carParkService.getCarType("diese");
         Object carType5 = carParkService.getCarType(23L);
+        Object parkingSpot12 = carParkService.createParkingSpot(2L, "cc", "xd", 23L);
         Object delTYpe = carParkService.deleteCarType(23L);
+//        Object delUser = carParkService.deleteUser(17L);
+//        Object delUser2 = carParkService.deleteUser(18L);
+       // Object delCarPark = carParkService.deleteCarPark(1L);
 
         System.out.println("aaa");
 
