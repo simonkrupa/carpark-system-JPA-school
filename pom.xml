@@ -15,7 +15,12 @@
         <maven.compiler.target>8</maven.compiler.target>
         <eclipse.persistence.version>2.7.10</eclipse.persistence.version>
     </properties>
-
+    <developers>
+        <developer>
+            <name>Simon Krupa</name>
+            <email>xkrupas@stuba.sk</email>
+        </developer>
+    </developers>
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
