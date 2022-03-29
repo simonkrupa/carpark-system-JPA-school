@@ -1,6 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr1b.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NamedQuery(name = "findAllCarTypes", query = "SELECT ct from CarType ct")
@@ -11,6 +13,44 @@ public class CarType {
     private Long carTypeId;
     @Column(unique = true)
     private String name;
+    @OneToMany
+    private List<Car> cars;
+    public void addCar(Car car){
+        if(cars == null){
+            cars = new ArrayList<>();
+        }
+        cars.add(car);
+    }
+
+    @OneToMany
+    private List<ParkingSpot> parkingSpots;
+
+    public void addParkingSpot(ParkingSpot parkingSpot){
+        if(parkingSpots==null){
+            parkingSpots = new ArrayList<>();
+        }
+        parkingSpots.add(parkingSpot);
+    }
+
+    public List<ParkingSpot> getParkingSpots() {
+        return parkingSpots;
+    }
+
+    public void setParkingSpots(List<ParkingSpot> parkingSpots) {
+        this.parkingSpots = parkingSpots;
+    }
+
+    public void createDefaultCarType(){
+        name = "Benzin";
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
 
     public CarType(String name) {
         this.name = name;

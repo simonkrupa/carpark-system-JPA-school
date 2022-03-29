@@ -21,6 +21,17 @@ public class ParkingSpot implements Serializable {
     @ManyToOne
     private CarParkFloor floor;
 
+    @ManyToOne
+    private CarType carType;
+
+    public CarType getCarType() {
+        return carType;
+    }
+
+    public void setCarType(CarType carType) {
+        this.carType = carType;
+    }
+
     public CarParkFloor getFloor() {
         return floor;
     }

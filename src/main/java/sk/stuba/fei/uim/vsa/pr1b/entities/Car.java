@@ -17,6 +17,16 @@ public class Car implements Serializable {
     private String colour;
     @Column(nullable = false, unique = true)
     private String vehicleRegistrationPlate;
+    @ManyToOne
+    private CarType carType;
+
+    public CarType getCarType() {
+        return carType;
+    }
+
+    public void setCarType(CarType carType) {
+        this.carType = carType;
+    }
 
     @OneToMany
     private List<Reservation> reservations;

@@ -224,9 +224,15 @@ public class CarParkService extends  AbstractCarParkService{
                 ParkingSpot parkingSpot = new ParkingSpot();
                 parkingSpot.setSpotIdentifier(spotIdentifier);
                 parkingSpot.setFloor(carParkFloor);
+                Object carType = createDefaultCarType();
+                parkingSpot.setCarType((CarType) carType);
+                ((CarType) carType).addParkingSpot(parkingSpot);
                 carParkFloor.addParkingSpot(parkingSpot);
                 manager.getTransaction().begin();
-                manager.persist(carParkFloor);
+                manager.persist(parkingSpot);
+                manager.getTransaction().commit();
+                manager.getTransaction().begin();
+                manager.merge(carType);
                 manager.getTransaction().commit();
                 return parkingSpot;
             }
@@ -348,10 +354,19 @@ public class CarParkService extends  AbstractCarParkService{
                 EntityManager manager = emf.createEntityManager();
                 User user = manager.find(User.class, userId);
                 if(user!=null) {
+                    Object carType = getCarType("Benzin");
+                    if(carType == null){
+                        carType = createDefaultCarType();
+                    }
+                    car.setCarType((CarType) carType);
+                    ((CarType) carType).addCar(car);
                     user.addCar(car);
                     car.setUser(user);
                     manager.getTransaction().begin();
                     manager.persist(car);
+                    manager.getTransaction().commit();
+                    manager.getTransaction().begin();
+                    manager.merge(carType);
                     manager.getTransaction().commit();
                     return car;
                 }
@@ -634,6 +649,17 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         CarType carType = manager.find(CarType.class, carTypeId);
         if(carType!=null){
+            if(carType.getName().equals("Benzin")){
+                return null;
+            }
+            Object defCarType = createDefaultCarType();
+            carType.getCars().forEach(car -> car.setCarType((CarType) defCarType));
+            if(defCarType instanceof CarType){
+                carType.getCars().forEach(car -> ((CarType) defCarType).addCar(car));
+            }
+            manager.getTransaction().begin();
+            manager.merge(defCarType);
+            manager.getTransaction().commit();
             manager.getTransaction().begin();
             manager.remove(carType);
             manager.getTransaction().commit();
@@ -644,11 +670,82 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object createCar(Long userId, String brand, String model, String colour, String vehicleRegistrationPlate, Long carTypeId) {
+        if(vehicleRegistrationPlate!=null) {
+            try {
+                Car car = new Car();
+                car.setBrand(brand);
+                car.setModel(model);
+                car.setColour(colour);
+                car.setVehicleRegistrationPlate(vehicleRegistrationPlate);
+                EntityManager manager = emf.createEntityManager();
+                CarType carType = manager.find(CarType.class, carTypeId);
+                if(carType != null) {
+                    User user = manager.find(User.class, userId);
+                    if (user != null) {
+                        car.setCarType(carType);
+                        carType.addCar(car);
+                        user.addCar(car);
+                        car.setUser(user);
+                        manager.getTransaction().begin();
+                        manager.persist(car);
+                        manager.getTransaction().commit();
+                        return car;
+                    }
+                }
+            }catch(Exception e){
+                return null;
+            }
+        }
         return null;
     }
 
     @Override
     public Object createParkingSpot(Long carParkId, String floorIdentifier, String spotIdentifier, Long carTypeId) {
+        EntityManager manager = emf.createEntityManager();
+        CarPark carPark = manager.find(CarPark.class, carParkId);
+        if(carPark != null){
+            CarParkFloor carParkFloor = carPark.getByFloorIdentifier(floorIdentifier);
+            if (carParkFloor != null){
+                if(spotIdentifier == null){
+                    return null;
+                }
+                for (ParkingSpot ps : carParkFloor.getParkingSpots().stream().collect(Collectors.toList())){
+                    if (ps.getSpotIdentifier().equals(spotIdentifier)){
+                        return null;
+                    }
+                }
+                ParkingSpot parkingSpot = new ParkingSpot();
+                parkingSpot.setSpotIdentifier(spotIdentifier);
+                parkingSpot.setFloor(carParkFloor);
+                CarType carType = manager.find(CarType.class, carTypeId);
+                if(carType==null){
+                    return null;
+                }
+                carParkFloor.addParkingSpot(parkingSpot);
+                parkingSpot.setCarType(carType);
+                carType.addParkingSpot(parkingSpot);
+                manager.getTransaction().begin();
+                manager.persist(parkingSpot);
+                manager.getTransaction().commit();
+                manager.getTransaction().begin();
+                manager.merge(carType);
+                manager.getTransaction().commit();
+                return parkingSpot;
+            }
+        }
         return null;
+    }
+
+    public Object createDefaultCarType(){
+        EntityManager manager = emf.createEntityManager();
+        if(getCarType("Benzin")!=null){
+            return getCarType("Benzin");
+        }
+        CarType carType = new CarType();
+        carType.createDefaultCarType();
+        manager.getTransaction().begin();
+        manager.persist(carType);
+        manager.getTransaction().commit();
+        return carType;
     }
 }
