@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@Table(name = "RESERVATION")
 public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

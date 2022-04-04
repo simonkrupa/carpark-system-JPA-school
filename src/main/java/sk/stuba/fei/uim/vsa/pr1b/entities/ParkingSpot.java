@@ -9,6 +9,7 @@ import java.util.Set;
 
 
 @Entity
+@Table(name = "PARKING_SPOT")
 public class ParkingSpot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

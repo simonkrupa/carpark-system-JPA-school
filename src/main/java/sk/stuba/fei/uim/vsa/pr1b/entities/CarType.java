@@ -7,6 +7,7 @@ import java.util.List;
 @Entity
 @NamedQuery(name = "findAllCarTypes", query = "SELECT ct from CarType ct")
 @NamedQuery(name = "findCarTypeByName", query = "select ct from CarType ct where ct.name =:name")
+@Table(name = "CAR_TYPE")
 public class CarType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @NamedQuery(name = "findByName", query = "select cp from CarPark cp where cp.name =:name")
 @NamedQuery(name = "findAllCarParks", query = "SELECT cp from CarPark cp")
+@Table(name = "CAR_PARK")
 public class CarPark implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

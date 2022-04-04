@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @NamedQuery(name = "findByFloorIdentifier", query = "select cpf from CarParkFloor cpf where cpf.floorIdentifier =:identifier and cpf.carParkFloorId=:floorId")
+@Table(name = "CAR_PARK_FLOOR")
 public class CarParkFloor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

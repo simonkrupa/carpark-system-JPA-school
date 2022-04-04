@@ -218,9 +218,11 @@ public class CarParkService extends  AbstractCarParkService{
                 if(spotIdentifier == null){
                     return null;
                 }
-                for (ParkingSpot ps : carParkFloor.getParkingSpots().stream().collect(Collectors.toList())){
-                    if (ps.getSpotIdentifier().equals(spotIdentifier)){
-                        return null;
+                for (CarParkFloor cpf : carPark.getFloors()) {
+                    for (ParkingSpot ps : cpf.getParkingSpots().stream().collect(Collectors.toList())) {
+                        if (ps.getSpotIdentifier().equals(spotIdentifier)) {
+                            return null;
+                        }
                     }
                 }
                 ParkingSpot parkingSpot = new ParkingSpot();

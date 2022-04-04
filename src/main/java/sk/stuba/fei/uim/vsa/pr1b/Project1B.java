@@ -48,11 +48,12 @@ public class Project1B {
         Object parkingSpot7 = carParkService.createParkingSpot(1L, "algo", "ou");
         Object parkingSpot8 = carParkService.createParkingSpot(2L, "cc", "nn");
         Object parkingSpot9 = carParkService.createParkingSpot(2L, "cc", "uu");
+        Object parkingSpot10 = carParkService.createParkingSpot(2L, "algo", "uu");
         //Object delfloor = carParkService.deleteCarParkFloor(3L);
         Object delspot = carParkService.deleteParkingSpot(8L);
 
-        List<Object> pss = carParkService.getParkingSpots(3L, "algo");
-        Object parkingSpot10 = carParkService.deleteParkingSpot(7L);
+        List<Object> pss = carParkService.getParkingSpots(1L, "algo");
+        Object parkingSpot11 = carParkService.deleteParkingSpot(7L);
 //        Map<String, List<Object>> map = carParkService.getParkingSpots(2L);
 
         Object user = carParkService.createUser("Simon", "Krupa", "hoco@email.com");

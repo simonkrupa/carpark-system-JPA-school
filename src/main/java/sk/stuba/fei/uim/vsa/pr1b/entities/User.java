@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @NamedQuery(name = "findByEmail", query = "SELECT u from User u WHERE u.email=:email")
 @NamedQuery(name = "findAllUsers", query = "SELECT u from User u")
+@Table(name = "USER")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

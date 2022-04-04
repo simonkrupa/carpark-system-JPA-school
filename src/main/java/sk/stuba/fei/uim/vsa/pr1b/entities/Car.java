@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @NamedQuery(name = "findByPlate", query = "SELECT c from Car c WHERE c.vehicleRegistrationPlate=:plate")
+@Table(name = "CAR")
 public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
