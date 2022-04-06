@@ -272,7 +272,7 @@ public class CarParkService extends  AbstractCarParkService{
             }
         }
         manager.close();
-        return Collections.emptyList();
+        return new ArrayList<>();
     }
 
     @Override
@@ -310,7 +310,7 @@ public class CarParkService extends  AbstractCarParkService{
             }
             return map;
         }
-        return null;
+        return new HashMap<>();
     }
 
     @Override
@@ -331,7 +331,7 @@ public class CarParkService extends  AbstractCarParkService{
             }
             return map;
         }
-        return null;
+        return new HashMap<>();
     }
 
     @Override
@@ -450,7 +450,7 @@ public class CarParkService extends  AbstractCarParkService{
         if (user!= null){
             return user.getCars().stream().collect(Collectors.toList());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -652,7 +652,7 @@ public class CarParkService extends  AbstractCarParkService{
             }
             return result;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -671,7 +671,7 @@ public class CarParkService extends  AbstractCarParkService{
             }
             return myActiveReservations.stream().collect(Collectors.toList());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
