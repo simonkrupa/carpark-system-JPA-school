@@ -112,6 +112,14 @@ public class Car implements Serializable {
     public Car() {
     }
 
+    public Long getCarId() {
+        return carId;
+    }
+
+    public void setCarId(Long carId) {
+        this.carId = carId;
+    }
+
     @Override
     public String toString() {
         List<String> reservationsToString = new ArrayList<>();

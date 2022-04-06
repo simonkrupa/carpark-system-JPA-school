@@ -83,16 +83,6 @@ public class CarParkService extends  AbstractCarParkService{
             CarPark carPark1 = manager.find(CarPark.class, ((CarPark) carPark).getCarParkId());
             if (carPark1 != null) {
                 if (((CarPark) carPark).getName() != null) {
-                    List<Object> carParks = getCarParks();
-                    for (Object cp : carParks) {
-                        if (cp instanceof CarPark) {
-                            if (((CarPark) carPark).getName().equals(((CarPark) cp).getName()) && ((CarPark) carPark).getCarParkId() != carPark1.getCarParkId()) {
-                                System.out.println("uz existuje");
-                                manager.close();
-                                return null;
-                            }
-                        }
-                    }
                     carPark1.setName(((CarPark) carPark).getName());
                 } else {
                     manager.close();
@@ -100,13 +90,16 @@ public class CarParkService extends  AbstractCarParkService{
                 }
                 carPark1.setAddress(((CarPark) carPark).getAddress());
                 carPark1.setPricePerHour(((CarPark) carPark).getPricePerHour());
-
-                manager.getTransaction().begin();
-                manager.merge(carPark1);
-                manager.getTransaction().commit();
-                manager.close();
-                return carPark1;
-
+                carPark1.setFloors(((CarPark) carPark).getFloors());
+                try {
+                    manager.getTransaction().begin();
+                    manager.merge(carPark1);
+                    manager.getTransaction().commit();
+                    manager.close();
+                    return carPark1;
+                }catch (Exception e){
+                    return null;
+                }
             }
         }
         return null;
@@ -174,8 +167,8 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object updateCarParkFloor(Object carParkFloor) {
-        EntityManager manager = emf.createEntityManager();
         if (carParkFloor instanceof CarParkFloor) {
+            EntityManager manager = emf.createEntityManager();
             CarParkFloor cp = manager.find(CarParkFloor.class, ((CarParkFloor) carParkFloor).getCarParkFloorId());
             if(cp != null){
                 if(((CarParkFloor) carParkFloor).getFloorIdentifier().equals(cp.getFloorIdentifier())){
@@ -344,6 +337,33 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object updateParkingSpot(Object parkingSpot) {
+        if(parkingSpot instanceof ParkingSpot){
+            if(((ParkingSpot) parkingSpot).getParkingSpotId() != null){
+                EntityManager manager = emf.createEntityManager();
+                ParkingSpot parkingSpot1 = manager.find(ParkingSpot.class, ((ParkingSpot) parkingSpot).getParkingSpotId());
+                if (parkingSpot1 != null) {
+                    if (((ParkingSpot) parkingSpot).getSpotIdentifier() != null) {
+                        if (!((ParkingSpot) parkingSpot).getSpotIdentifier().equals(parkingSpot1.getSpotIdentifier())) {
+                            for (CarParkFloor cpf : parkingSpot1.getFloor().getCarPark().getFloors()) {
+                                for (ParkingSpot ps : cpf.getParkingSpots()) {
+                                    if (ps.getSpotIdentifier().equals(((ParkingSpot) parkingSpot).getSpotIdentifier())) {
+                                        return null;
+                                    }
+                                }
+                            }
+                            parkingSpot1.setCarType(((ParkingSpot) parkingSpot).getCarType());
+                            parkingSpot1.setSpotIdentifier(((ParkingSpot) parkingSpot).getSpotIdentifier());
+                            manager.getTransaction().begin();
+                            manager.merge(parkingSpot1);
+                            manager.getTransaction().commit();
+                            manager.close();
+                            return parkingSpot1;
+                        }
+
+                    }
+                }
+            }
+        }
         return null;
     }
 
@@ -436,6 +456,28 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object updateCar(Object car) {
+        if(car instanceof Car){
+            if(((Car) car).getCarId() != null){
+                EntityManager manager = emf.createEntityManager();
+                Car car1 = manager.find(Car.class, ((Car) car).getCarId());
+                if(car1!=null){
+                    car1.setBrand(((Car) car).getBrand());
+                    car1.setColour(((Car) car).getColour());
+                    car1.setModel(((Car) car).getModel());
+                    car1.setVehicleRegistrationPlate(((Car) car).getVehicleRegistrationPlate());
+                    car1.setCarType(((Car) car).getCarType());
+                    try{
+                        manager.getTransaction().begin();
+                        manager.merge(car1);
+                        manager.getTransaction().commit();
+                        manager.close();
+                        return car1;
+                    }catch (Exception e){
+                        return null;
+                    }
+                }
+            }
+        }
         return null;
     }
 

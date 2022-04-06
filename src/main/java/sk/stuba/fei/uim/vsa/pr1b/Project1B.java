@@ -12,10 +12,15 @@ import java.util.concurrent.TimeUnit;
 public class Project1B {
 
     public static void main(String[] args) throws InterruptedException {
-//        CarParkService carParkService = new CarParkService();
-        Repl repl = new Repl();
-        repl.start();
-//
+        CarParkService carParkService = new CarParkService();
+//        Repl repl = new Repl();
+//        repl.start();
+////
+        Object car = carParkService.getCar(25L);
+        if(car instanceof Car){
+            ((Car) car).setVehicleRegistrationPlate("PK481JK");        //TT335BN");
+        }
+        Object ps = carParkService.updateCar(car);
 //        Object r1 = carParkService.createReservation(17L, 23L);
 //        Object r2 = carParkService.createReservation(18L, 24L);
 //        Object r3 = carParkService.createReservation(19L, 25L);
