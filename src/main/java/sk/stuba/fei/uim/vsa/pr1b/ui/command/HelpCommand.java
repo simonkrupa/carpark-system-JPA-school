@@ -4,13 +4,32 @@ import java.util.List;
 
 public class HelpCommand implements Command {
 
-    public static final String HELP = "B-VSA LS 21/22 Cvičenie 3\n" +
-            "Táto aplikácia slúži na demonštráciu práce s SQL databázami pomocou JPA.\n" +
-            "Náplňou cvičenia 3 sú jednosmerné asociácie vytvorených entít.\n" +
-            "Pre otestovanie aplikácie môžte využiť nasledovné príkazy:\n" +
-            "   print <text>    - Výpis poskytnutého textu\n" +
+    public static final String HELP = "Rezervačný systém parkovacích domov.\n" +
+            "Táto aplikácia slúži na starostlivosť o chod parkovacích domov.\n" +
+            "Pre prácu s aplikáciou využite nasledovné príkazy:\n" +
             "   exit, quit, q   - Ukončenie programu\n" +
-            "   help, ?         - Výpis tohto textu pomoci\n";
+            "   help, ?         - Výpis tohto textu pomoci\n" +
+            "---------------------------------------------------\n" +
+            "   find            - Výpis hľadaného objektu\n" +
+            "   parametre pre find   - carpark [byid {id carparku}, byname {meno carparku}, all]\n" +
+            "                        - carparkfloor [byid {id carparkfloor}, all {id carparku}]\n" +
+            "                        - parkingspot [byid {id parkingspot}, allbyfloor {id carpark, flooridentifier}]\n" +
+            "                        - user [byid {id usera}, byemail {email usera}, all]\n" +
+            "                        - car [byid {id car}, byvrp {VRP car}, all {id usera}]\n" +
+            "                        - reservation [byid {id parkingspotu, date <format: dd/mm/yyyy>}, allbyuser {id usera}]\n" +
+            "                        - cartype []\n" +
+            "   príklad: find carpark byid 2\n" +
+            "---------------------------------------------------\n" +
+            "   create          - Vytvorenie nového objektu\n" +
+            "   parametre pre create - carpark\n" +
+            "                        - carparkfloor\n" +
+            "                        - parkingspot\n" +
+            "                        - user\n" +
+            "                        - car\n" +
+            "                        - reservation\n" +
+            "                        - cartype\n" +
+            "---------------------------------------------------\n";
+
 
     @Override
     public void execute(String wholeInput, List<String> parameters) {

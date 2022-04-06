@@ -18,6 +18,20 @@ public class Repl {
     }
 
     public void start() {
+        System.out.println("Rezervačný systém parkovacích domov.\n" +
+                "Táto aplikácia slúži na starostlivosť o chod parkovacích domov.\n" +
+                "Pre prácu s aplikáciou využite nasledovné príkazy:\n" +
+                "   exit, quit, q   - Ukončenie programu\n" +
+                "   help, ?         - Výpis tohto textu pomoci\n" +
+                "   find            - Výpis hľadaného elementu\n" +
+                "   parametre pre find - carpark [byid {id carparku}, byname {meno carparku}, all]\n" +
+                "                      - carparkfloor [byid {id carparkfloor}, all {id carparku}]\n" +
+                "                      - parkingspot [byid {id parkingspot}, allbyfloor {id carpark, flooridentifier}]\n" +
+                "                      - user [byid {id usera}, byemail {email usera}, all]\n" +
+                "                      - car [byid {id car}, byvrp {VRP car}, all {id usera}]\n" +
+                "                      - reservation [byid {id parkingspotu, date <format: dd/mm/yyyy>}, allbyuser {id usera}]\n" +
+                "                      - cartype []\n" +
+                "   príklad: find carpark byid 2\n");
         while (true) {
             String input = KeyboardInput.readString("").trim();
             switch (input) {
