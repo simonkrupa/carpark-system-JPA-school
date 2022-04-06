@@ -169,7 +169,7 @@ public class CarParkService extends  AbstractCarParkService{
         EntityManager manager = emf.createEntityManager();
         CarPark carPark = manager.find(CarPark.class, carParkId);
         manager.close();
-        return carPark.getFloors().stream().collect(Collectors.toList());
+        return new ArrayList<>(carPark.getFloors());
     }
 
     @Override
