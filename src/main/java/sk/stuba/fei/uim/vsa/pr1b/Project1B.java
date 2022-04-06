@@ -40,6 +40,9 @@ public class Project1B {
         Object updatedFloor = carParkService.updateCarParkFloor(carParkFloor3);
 
         Object parkingSpot = carParkService.createParkingSpot(1L, "algo", "bueno");
+        Object delType = carParkService.deleteCarType(7L);
+        Object ddddd= carParkService.deleteParkingSpot(8L);
+        Object del32Type = carParkService.deleteCarType(7L);
         Object parkingSpot2 = carParkService.createParkingSpot(1L, "algo", "bu");
         Object parkingSpot3 = carParkService.createParkingSpot(1L, "algo", "be");
         Object parkingSpot4 = carParkService.createParkingSpot(1L, "algo", "bc");
@@ -97,6 +100,10 @@ public class Project1B {
         Object carType5 = carParkService.getCarType(23L);
         Object parkingSpot12 = carParkService.createParkingSpot(2L, "cc", "xd", 23L);
         Object delTYpe = carParkService.deleteCarType(23L);
+        Object ddcar = carParkService.deleteCar(24L);
+        Object del2TYpe = carParkService.deleteCarType(23L);
+        Object ddspot = carParkService.deleteParkingSpot(25L);
+        Object del3TYpe = carParkService.deleteCarType(23L);
 //        Object delUser = carParkService.deleteUser(17L);
 //        Object delUser2 = carParkService.deleteUser(18L);
        // Object delCarPark = carParkService.deleteCarPark(1L);
