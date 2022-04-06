@@ -28,6 +28,15 @@ public class HelpCommand implements Command {
             "                        - car\n" +
             "                        - reservation\n" +
             "                        - cartype\n" +
+            "---------------------------------------------------\n" +
+            "   delete          - Vymazanie objektu / ukončenie rezervácie \n" +
+            "   parametre pre delete - carpark\n" +
+            "                        - carparkfloor\n" +
+            "                        - parkingspot\n" +
+            "                        - user\n" +
+            "                        - car\n" +
+            "                        - reservation\n" +
+            "                        - cartype\n" +
             "---------------------------------------------------\n";
 
 
