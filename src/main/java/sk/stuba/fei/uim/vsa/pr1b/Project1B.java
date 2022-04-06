@@ -1,6 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr1b;
 
 import sk.stuba.fei.uim.vsa.pr1b.entities.*;
+import sk.stuba.fei.uim.vsa.pr1b.ui.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +12,59 @@ import java.util.concurrent.TimeUnit;
 public class Project1B {
 
     public static void main(String[] args) throws InterruptedException {
-        CarParkService carParkService = new CarParkService();
+//        CarParkService carParkService = new CarParkService();
+        Repl repl = new Repl();
+        repl.start();
+//
+//        Object r1 = carParkService.createReservation(17L, 23L);
+//        Object r2 = carParkService.createReservation(18L, 24L);
+//        Object r3 = carParkService.createReservation(19L, 25L);
+//        Object r4 = carParkService.createReservation(20L, 26L);
+//        Object r5 = carParkService.createReservation(21L, 27L);
+//        Object r6 = carParkService.createReservation(22L, 28L);
+
+//        Object er1 = carParkService.endReservation(51L);
+//        Object er2 = carParkService.endReservation(53L);
+//        Object er3 = carParkService.endReservation(54L);
+//        Object er4 = carParkService.endReservation(56L);
+
+
+//        Object cp1 = carParkService.createCarPark("Ikea parkovisko", "Ivanská cesta 16, 82104, Bratislava", 2);
+//        Object cp2 = carParkService.createCarPark("Aupark", "Veľká Okružna 59A, Žilina", 1);
+//        Object cp3 = carParkService.createCarPark("ShopBox", "Herlianska 60, 040 14 Košice", 3);
+//
+//        Object u1 = carParkService.createUser("Jožko", "Mrkvička", "jozko@mrkvicka.sk");
+//        Object u2 = carParkService.createUser("Ferko", "Mrkvička", "ferko666@gmail.com");
+//        Object u3 = carParkService.createUser("Zuzana", "Mrkvičková", "mrkvickova25@hotmail.com");
+//        Object u4 = carParkService.createUser("Jana", "Bystrá", "jana.bystra@gmail.com");
+//        Object u5 = carParkService.createUser("Tomáš", "Kováč", "tominok38@gmail.com");
+//        Object u6 = carParkService.createUser("Michaela", "Žitná", "zitna.miska@yahoo.com");
+//
+//        Object cp1cpf1 = carParkService.createCarParkFloor(1L, "P1");
+//        Object cp1cpf2 = carParkService.createCarParkFloor(1L, "P2");
+//        Object cp1cpf3 = carParkService.createCarParkFloor(1L, "P3");
+//
+//        Object cp2cpf1 = carParkService.createCarParkFloor(2L, "-1");
+//        Object cp2cpf2 = carParkService.createCarParkFloor(2L, "-2");
+//
+//        Object cp3cpf1 = carParkService.createCarParkFloor(3L, "A");
+//
+//        Object cp1cpf2ps1 = carParkService.createParkingSpot(1L, "P2", "2022");
+//        Object cp1cpf1ps1 = carParkService.createParkingSpot(1L, "P1", "1002");
+//        Object cp1cpf3ps1 = carParkService.createParkingSpot(1L, "P3", "3055");
+//
+//        Object cp2cpf1ps1 = carParkService.createParkingSpot(2L, "-1", "1025");
+//        Object cp2cpf2ps1 = carParkService.createParkingSpot(2L, "-2", "2123");
+//
+//        Object cp3cpf1ps1 = carParkService.createParkingSpot(3L, "A", "3568");
+//
+//        Object u1c1 = carParkService.createCar(4L, "Audi", "A7", "modrá", "BL345XF");
+//        Object u2c1 = carParkService.createCar(5L, "Renault", "Clio", "zelená", "PK481JK");
+//        Object u3c1 = carParkService.createCar(6L, "BMW", "X5", "šedá", "TT335BN");
+//        Object u4c1 = carParkService.createCar(7L, "Kia", "Ceed", "tmavomodrá", "NM421ZU");
+//        Object u5c1 = carParkService.createCar(8L, "Hyundai", "i30", "oranžová", "ZA698GH");
+//        Object u6c1 = carParkService.createCar(9L, "Mercedes", "GLA", "červená", "KE725SD");
+
 
 //        //od zaciatku
 //        Object carPark1 = carParkService.createCarPark("VB","skolska",5);
@@ -117,41 +170,41 @@ public class Project1B {
 //        System.out.println("aaa");
 
 
-        carParkService.createCarPark("dubw", "ala", 5);
-        carParkService.createCarPark("fef", "ae", 3);
-        Object carPark = carParkService.getCarPark(2L);
-        Object carPark2 = carParkService.getCarPark("duw");
-        List<Object> carParks = carParkService.getCarParks();
-//        CarPark cp = new CarPark("ax", "vb", 6);
-//        carParkService.updateCarPark(cp);
-        carParkService.deleteCarPark(3L);
-        carParkService.createCarParkFloor(2L, "1");
-        carParkService.createCarParkFloor(2L, "2");
-
-        List<Object> c = carParkService.getCarParkFloors(1L);
-        Object carParkFloor = carParkService.getCarParkFloor(3L);
-        //Object carParkFloor2 = carParkService.deleteCarParkFloor(3L);
-        Object parkingSpot = carParkService.createParkingSpot(2L, "1", "2");
-        Object parkingSpot2 = carParkService.createParkingSpot(2L, "1", "3");
-        Object cp = carParkService.getCarParkFloor(3L);
-        Map<String, List<Object>> m = carParkService.getParkingSpots(2L);
-        Object user = carParkService.createUser("Simon", "Krupa", "user@example.com");
-        Object user1 = carParkService.getUser(7L);
-        Object user2 = carParkService.getUser("user@example.com");
-        List<Object> users = carParkService.getUsers();
-        Object user3 = carParkService.deleteUser(8L);
-        Object car = carParkService.createCar(7L, "skoda", "octavia", "biela", "XXX");
-        Object car1 = carParkService.createCar(7L, "ford", "mondeo", "cierna", "YYY");
-        user1 = carParkService.getUser(7L);
-        List<Object> cars = carParkService.getCars(7L);
-        Object deletedCar = carParkService.deleteCar(9L);
-        List<Object> cars2 = carParkService.getCars(7L);
-        Object res = carParkService.createReservation(5L, 8L);
-       // TimeUnit.SECONDS.sleep(5);
-        Object parkingSpot3 = carParkService.getParkingSpot(5L);
-        carParkService.endReservation(10L);
-        List<Object> reservations = carParkService.getReservations(5L, new Date());
-        System.out.println("aa");
+//        carParkService.createCarPark("dubw", "ala", 5);
+//        carParkService.createCarPark("fef", "ae", 3);
+//        Object carPark = carParkService.getCarPark(2L);
+//        Object carPark2 = carParkService.getCarPark("duw");
+//        List<Object> carParks = carParkService.getCarParks();
+////        CarPark cp = new CarPark("ax", "vb", 6);
+////        carParkService.updateCarPark(cp);
+//        carParkService.deleteCarPark(3L);
+//        carParkService.createCarParkFloor(2L, "1");
+//        carParkService.createCarParkFloor(2L, "2");
+//
+//        List<Object> c = carParkService.getCarParkFloors(1L);
+//        Object carParkFloor = carParkService.getCarParkFloor(3L);
+//        //Object carParkFloor2 = carParkService.deleteCarParkFloor(3L);
+//        Object parkingSpot = carParkService.createParkingSpot(2L, "1", "2");
+//        Object parkingSpot2 = carParkService.createParkingSpot(2L, "1", "3");
+//        Object cp = carParkService.getCarParkFloor(3L);
+//        Map<String, List<Object>> m = carParkService.getParkingSpots(2L);
+//        Object user = carParkService.createUser("Simon", "Krupa", "user@example.com");
+//        Object user1 = carParkService.getUser(7L);
+//        Object user2 = carParkService.getUser("user@example.com");
+//        List<Object> users = carParkService.getUsers();
+//        Object user3 = carParkService.deleteUser(8L);
+//        Object car = carParkService.createCar(7L, "skoda", "octavia", "biela", "XXX");
+//        Object car1 = carParkService.createCar(7L, "ford", "mondeo", "cierna", "YYY");
+//        user1 = carParkService.getUser(7L);
+//        List<Object> cars = carParkService.getCars(7L);
+//        Object deletedCar = carParkService.deleteCar(9L);
+//        List<Object> cars2 = carParkService.getCars(7L);
+//        Object res = carParkService.createReservation(5L, 8L);
+//       // TimeUnit.SECONDS.sleep(5);
+//        Object parkingSpot3 = carParkService.getParkingSpot(5L);
+//        carParkService.endReservation(10L);
+//        List<Object> reservations = carParkService.getReservations(5L, new Date());
+//        System.out.println("aa");
 
     }
 

@@ -67,4 +67,17 @@ public class CarParkFloor implements Serializable {
     public void setFloorIdentifier(String floorIdentifier) {
         this.floorIdentifier = floorIdentifier;
     }
+
+    @Override
+    public String toString() {
+        String carParkToString = carPark.getName();
+        List<String> parkingSpotsToString = new ArrayList<>();
+        parkingSpots.forEach(parkingSpot -> parkingSpotsToString.add(parkingSpot.getSpotIdentifier()));
+        return "CarParkFloor{" +
+                "carParkFloorId=" + carParkFloorId +
+                ", floorIdentifier='" + floorIdentifier + '\'' +
+                ", carPark=" + carParkToString +
+                ", parkingSpots=" + parkingSpotsToString +
+                '}';
+    }
 }

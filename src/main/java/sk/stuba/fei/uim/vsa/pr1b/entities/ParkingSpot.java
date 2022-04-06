@@ -113,4 +113,17 @@ public class ParkingSpot implements Serializable {
     public void setSpotIdentifier(String spotIdentifier) {
         this.spotIdentifier = spotIdentifier;
     }
+
+    @Override
+    public String toString() {
+        List<String> reservationsToString = new ArrayList<>();
+        reservations.forEach(reservation -> reservationsToString.add(""+reservation.getReservationId()));
+        return "ParkingSpot{" +
+                "parkingSpotId=" + parkingSpotId +
+                ", spotIdentifier='" + spotIdentifier + '\'' +
+                ", reservations=" + reservationsToString +
+                ", floor=" + floor.getFloorIdentifier() +
+                ", carType=" + carType.getName() +
+                '}';
+    }
 }

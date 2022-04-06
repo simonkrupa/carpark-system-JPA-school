@@ -12,7 +12,7 @@ public class CarType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long carTypeId;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
     @OneToMany
     private List<Car> cars;
@@ -74,5 +74,19 @@ public class CarType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        List<String> parkingSpotsToString = new ArrayList<>();
+        parkingSpots.forEach(parkingSpot -> parkingSpotsToString.add(parkingSpot.getSpotIdentifier()));
+        List<String> carsToString = new ArrayList<>();
+        cars.forEach(car -> carsToString.add(car.getVehicleRegistrationPlate()));
+        return "CarType{" +
+                "carTypeId=" + carTypeId +
+                ", name='" + name + '\'' +
+                ", cars=" + carsToString +
+                ", parkingSpots=" + parkingSpotsToString +
+                '}';
     }
 }

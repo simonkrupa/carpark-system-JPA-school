@@ -92,4 +92,17 @@ public class CarPark implements Serializable {
     public void setCarParkId(Long carParkId) {
         this.carParkId = carParkId;
     }
+
+    @Override
+    public String toString() {
+        List<String> floorsToString = new ArrayList<>();
+        floors.forEach(floor -> floorsToString.add(floor.getFloorIdentifier()));
+        return "CarPark{" +
+                "carParkId=" + carParkId +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", pricePerHour=" + pricePerHour +
+                ", floors=" + floorsToString +
+                '}';
+    }
 }

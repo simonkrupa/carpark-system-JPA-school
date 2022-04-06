@@ -68,4 +68,17 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        List<String> carsToString = new ArrayList<>();
+        cars.forEach(car -> carsToString.add(car.getVehicleRegistrationPlate()));
+        return "User{" +
+                "userId=" + userId +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", cars=" + carsToString +
+                '}';
+    }
 }

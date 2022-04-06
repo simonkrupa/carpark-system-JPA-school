@@ -73,4 +73,16 @@ public class Reservation implements Serializable {
     public void setParkingSpot(ParkingSpot parkingSpot) {
         this.parkingSpot = parkingSpot;
     }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservationId=" + reservationId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", cost=" + cost +
+                ", car=" + car.getVehicleRegistrationPlate() +
+                ", parkingSpot=" + parkingSpot.getSpotIdentifier() +
+                '}';
+    }
 }

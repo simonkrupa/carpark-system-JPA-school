@@ -111,4 +111,20 @@ public class Car implements Serializable {
 
     public Car() {
     }
+
+    @Override
+    public String toString() {
+        List<String> reservationsToString = new ArrayList<>();
+        reservations.forEach(reservation -> reservationsToString.add(""+reservation.getReservationId()));
+        return "Car{" +
+                "carId=" + carId +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", colour='" + colour + '\'' +
+                ", vehicleRegistrationPlate='" + vehicleRegistrationPlate + '\'' +
+                ", carType=" + carType.getName() +
+                ", reservations=" + reservationsToString +
+                ", user=" + user.getEmail() +
+                '}';
+    }
 }
