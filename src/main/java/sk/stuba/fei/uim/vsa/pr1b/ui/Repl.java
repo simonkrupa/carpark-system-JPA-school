@@ -15,6 +15,7 @@ public class Repl {
         commands.put("?", new HelpCommand());
         commands.put("find", new FindCommand());
         commands.put("create", new CreateCommand());
+        commands.put("delete", new DeleteCommand());
     }
 
     public void start() {
