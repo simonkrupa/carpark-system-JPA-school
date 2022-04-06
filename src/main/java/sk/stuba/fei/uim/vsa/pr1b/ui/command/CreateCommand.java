@@ -19,6 +19,10 @@ public class CreateCommand implements Command {
 
     @Override
     public void execute(String wholeInput, List<String> parameters) {
+        if(parameters.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return;
+        }
         switch (parameters.get(0)) {
             case "carpark":
             case "carPark":
@@ -63,7 +67,11 @@ public class CreateCommand implements Command {
         String floorIdentifier = KeyboardInput.readString("Floor identifier ").trim();
         Long cpIdL = Long.parseLong(cpId);
         Object carParkFloor = carParkService.createCarParkFloor(cpIdL, floorIdentifier);
-        System.out.println(carParkFloor);
+        if(carParkFloor==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(carParkFloor);
+        }
         return carParkFloor;
     }
 
@@ -73,7 +81,11 @@ public class CreateCommand implements Command {
         String spotIdentifier = KeyboardInput.readString("Spot identifier ").trim();
         Long cpIdL = Long.parseLong(cpId);
         Object parkingSpot = carParkService.createParkingSpot(cpIdL, floorIdentifier, spotIdentifier);
-        System.out.println(parkingSpot);
+        if(parkingSpot==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(parkingSpot);
+        }
         return parkingSpot;
     }
 
@@ -82,7 +94,11 @@ public class CreateCommand implements Command {
         String lastname = KeyboardInput.readString("Priezvisko ").trim();
         String email = KeyboardInput.readString("Email ").trim();
         Object user = carParkService.createUser(firstname, lastname, email);
-        System.out.println(user);
+        if(user==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(user);
+        }
         return user;
 
     }
@@ -92,7 +108,11 @@ public class CreateCommand implements Command {
         String cId = KeyboardInput.readString("Id car ").trim();
         Long cIdL = Long.parseLong(cId);
         Object reservation = carParkService.createReservation(psIdL, cIdL);
-        System.out.println(reservation);
+        if(reservation==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(reservation);
+        }
         return reservation;
     }
 
@@ -104,14 +124,22 @@ public class CreateCommand implements Command {
         String colour = KeyboardInput.readString("Farba ").trim();
         String vrp = KeyboardInput.readString("VRP ").trim();
         Object car = carParkService.createCar(uIdL, brand, model, colour, vrp);
-        System.out.println(car);
+        if(car==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(car);
+        }
         return car;
     }
 
     private Object createCarType(){
         String name = KeyboardInput.readString("Názov ").trim();
         Object carType = carParkService.createCarType(name);
-        System.out.println(carType);
+        if(carType==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(carType);
+        }
         return carType;
     }
 
@@ -122,7 +150,11 @@ public class CreateCommand implements Command {
         String pricePerHour = KeyboardInput.readString("Cena na hodinu ").trim();
         Integer pricePerHourL = Integer.parseInt(pricePerHour);
         Object carPark = carParkService.createCarPark(name, address, pricePerHourL);
-        System.out.println(carPark);
+        if(carPark==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(carPark);
+        }
         return carPark;
     }
 

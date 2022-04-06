@@ -15,6 +15,10 @@ public class DeleteCommand implements Command{
 
     @Override
     public void execute(String wholeInput, List<String> parameters) {
+        if(parameters.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return;
+        }
         switch (parameters.get(0)) {
             case "carpark":
             case "carPark":
@@ -58,7 +62,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("Car Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.deleteCar(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 
@@ -66,7 +74,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("CarPark Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.deleteCarPark(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 
@@ -74,7 +86,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("CarParkFloor Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.deleteCarParkFloor(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 
@@ -82,7 +98,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("ParkingSpot Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.deleteParkingSpot(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 
@@ -90,7 +110,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("User Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.deleteUser(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 
@@ -98,7 +122,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("Reservation Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.endReservation(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 
@@ -106,7 +134,11 @@ public class DeleteCommand implements Command{
         String Id = KeyboardInput.readString("CarType Id ").trim();
         Long IdL = Long.parseLong(Id);
         Object deletedObject = carParkService.deleteCarType(IdL);
-        System.out.println(deletedObject);
+        if(deletedObject==null){
+            System.out.println("Chyba");
+        }else {
+            System.out.println(deletedObject);
+        }
         return deletedObject;
     }
 

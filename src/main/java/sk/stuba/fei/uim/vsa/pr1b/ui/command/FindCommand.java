@@ -17,6 +17,10 @@ public class FindCommand implements Command {
 
     @Override
     public void execute(String wholeInput, List<String> parameters) {
+        if(parameters.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return;
+        }
         List<Object> container = new ArrayList<>();
         switch (parameters.get(0)) {
             case "carpark":
@@ -62,6 +66,10 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findCarTypes(List<String> params) {
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
 //            case "byId":
 //            case "byid":
@@ -77,6 +85,10 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findReservations(List<String> params) {
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
             case "byId":
             case "byid":
@@ -93,10 +105,10 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findReservationByIdAndDate(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        params.remove(0);
-        String d = params.get(0);
         try {
+            Long id = Long.parseLong(params.get(0));
+            params.remove(0);
+            String d = params.get(0);
             Date date = new SimpleDateFormat("dd/MM/yyyy").parse(d);
             List<Object> reservations = carParkService.getReservations(id, date);
             return reservations;
@@ -107,12 +119,20 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findReservationsByUser(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        List<Object> reservations = carParkService.getMyReservations(id);
-        return reservations;
+        try {
+            Long id = Long.parseLong(params.get(0));
+            List<Object> reservations = carParkService.getMyReservations(id);
+            return reservations;
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCars(List<String> params) {
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
             case "byId":
             case "byid":
@@ -132,23 +152,39 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findCarById(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        Object car = carParkService.getCar(id);
-        return Collections.singletonList(car);
+        try {
+            Long id = Long.parseLong(params.get(0));
+            Object car = carParkService.getCar(id);
+            return Collections.singletonList(car);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCarByVRP(List<String> params) {
-        Object car = carParkService.getCar(params.get(0));
-        return Collections.singletonList(car);
+        try {
+            Object car = carParkService.getCar(params.get(0));
+            return Collections.singletonList(car);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCarsByUser(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        List<Object> cars = carParkService.getCars(id);
-        return cars;
+        try {
+            Long id = Long.parseLong(params.get(0));
+            List<Object> cars = carParkService.getCars(id);
+            return cars;
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findUsers(List<String> params) {
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
             case "byId":
             case "byid":
@@ -167,17 +203,29 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findUserByEmail(List<String> params) {
-        Object user = carParkService.getUser(params.get(0));
-        return Collections.singletonList(user);
+        try {
+            Object user = carParkService.getUser(params.get(0));
+            return Collections.singletonList(user);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findUserById(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        Object user = carParkService.getUser(id);
-        return Collections.singletonList(user);
+        try {
+            Long id = Long.parseLong(params.get(0));
+            Object user = carParkService.getUser(id);
+            return Collections.singletonList(user);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findParkingSpots(List<String> params) {
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
             case "byId":
             case "byid":
@@ -197,27 +245,44 @@ public class FindCommand implements Command {
     }
 
     private Map<String, List<Object>> findAllParkingSpots(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        Map<String, List<Object>> parkingSpots = carParkService.getParkingSpots(id);
-        return parkingSpots;
+        try {
+            Long id = Long.parseLong(params.get(0));
+            Map<String, List<Object>> parkingSpots = carParkService.getParkingSpots(id);
+            return parkingSpots;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     private List<Object> findAllParkingSpotsByFloor(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        params.remove(0);
-        String floorIdentifier = params.get(0);
-        List<Object> parkingSpots = carParkService.getParkingSpots(id, floorIdentifier);
-        return parkingSpots;
+        try {
+            Long id = Long.parseLong(params.get(0));
+            params.remove(0);
+            String floorIdentifier = params.get(0);
+            List<Object> parkingSpots = carParkService.getParkingSpots(id, floorIdentifier);
+            return parkingSpots;
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findParkingSpotById(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        Object parkingSpot = carParkService.getParkingSpot(id);
-        return Collections.singletonList(parkingSpot);
+        try {
+            Long id = Long.parseLong(params.get(0));
+            Object parkingSpot = carParkService.getParkingSpot(id);
+            return Collections.singletonList(parkingSpot);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCarParkFloors(List<String> params){
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
+
             case "byId":
             case "byid":
                 params.remove(0);
@@ -232,18 +297,30 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findCarParkAllFloors(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        List<Object> carParkFloors = carParkService.getCarParkFloors(id);
-        return carParkFloors;
+        try {
+            Long id = Long.parseLong(params.get(0));
+            List<Object> carParkFloors = carParkService.getCarParkFloors(id);
+            return carParkFloors;
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCarParkFloorById(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        Object carParkFloor = carParkService.getCarParkFloor(id);
-        return Collections.singletonList(carParkFloor);
+        try {
+            Long id = Long.parseLong(params.get(0));
+            Object carParkFloor = carParkService.getCarParkFloor(id);
+            return Collections.singletonList(carParkFloor);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCarParks(List<String> params) {
+        if(params.isEmpty()){
+            System.out.println("Chýbajú parametre");
+            return new ArrayList<>();
+        }
         switch (params.get(0)) {
             case "byId":
             case "byid":
@@ -262,14 +339,22 @@ public class FindCommand implements Command {
     }
 
     private List<Object> findCarParkByName(List<String> params) {
-        Object carPark = carParkService.getCarPark(params.get(0));
-        return Collections.singletonList(carPark);
+        try{
+            Object carPark = carParkService.getCarPark(params.get(0));
+            return Collections.singletonList(carPark);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private List<Object> findCarParkById(List<String> params) {
-        Long id = Long.parseLong(params.get(0));
-        Object carPark = carParkService.getCarPark(id);
-        return Collections.singletonList(carPark);
+        try {
+            Long id = Long.parseLong(params.get(0));
+            Object carPark = carParkService.getCarPark(id);
+            return Collections.singletonList(carPark);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     private void printNoResult(List<String> params) {
