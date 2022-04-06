@@ -33,7 +33,6 @@ public class CarParkService extends  AbstractCarParkService{
         for (Object cp: carParks) {
            if(cp instanceof CarPark){
                if(name.equals(((CarPark) cp).getName())){
-                   System.out.println("uz existuje");
                    return null;
                }
            }
