@@ -545,18 +545,20 @@ public class CarParkService extends  AbstractCarParkService{
             if(car.getActiveReservation() == null) {
                 ParkingSpot parkingSpot = manager.find(ParkingSpot.class, parkingSpotId);
                 if (parkingSpot != null) {
-                    if (parkingSpot.getActiveReservation() == null) {
-                        Reservation reservation = new Reservation();
-                        reservation.setCar(car);
-                        reservation.setParkingSpot(parkingSpot);
-                        reservation.setStartDate(new Date());
-                        parkingSpot.addReservation(reservation);
-                        car.addReservation(reservation);
-                        manager.getTransaction().begin();
-                        manager.persist(reservation);
-                        manager.getTransaction().commit();
-                        manager.close();
-                        return reservation;
+                    if (parkingSpot.getCarType().equals(car.getCarType())) {
+                        if (parkingSpot.getActiveReservation() == null) {
+                            Reservation reservation = new Reservation();
+                            reservation.setCar(car);
+                            reservation.setParkingSpot(parkingSpot);
+                            reservation.setStartDate(new Date());
+                            parkingSpot.addReservation(reservation);
+                            car.addReservation(reservation);
+                            manager.getTransaction().begin();
+                            manager.persist(reservation);
+                            manager.getTransaction().commit();
+                            manager.close();
+                            return reservation;
+                        }
                     }
                 }
             }
