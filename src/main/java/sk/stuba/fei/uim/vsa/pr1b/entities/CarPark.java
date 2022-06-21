@@ -105,4 +105,9 @@ public class CarPark implements Serializable {
                 ", floors=" + floorsToString +
                 '}';
     }
+
+    public Long getId() {
+        return carParkId;
+    }
+
 }

@@ -126,4 +126,8 @@ public class ParkingSpot implements Serializable {
                 ", carType=" + carType.getName() +
                 '}';
     }
+
+    public Long getId() {
+        return parkingSpotId;
+    }
 }

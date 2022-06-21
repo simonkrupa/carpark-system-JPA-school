@@ -80,4 +80,8 @@ public class CarParkFloor implements Serializable {
                 ", parkingSpots=" + parkingSpotsToString +
                 '}';
     }
+
+    public Long getId() {
+        return carParkFloorId;
+    }
 }

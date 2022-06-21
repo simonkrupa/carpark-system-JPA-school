@@ -135,4 +135,7 @@ public class Car implements Serializable {
                 ", user=" + user.getEmail() +
                 '}';
     }
+    public Long getId() {
+        return carId;
+    }
 }
