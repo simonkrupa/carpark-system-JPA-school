@@ -553,7 +553,27 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object updateUser(Object user) {
-        return null;
+        EntityManager manager = emf.createEntityManager();
+        User userVal = manager.find(User.class, ((User) user).getUserId());
+        if(userVal!=null){
+            try {
+                userVal.setEmail(((User) user).getEmail());
+                userVal.setFirstname(((User) user).getFirstname());
+                userVal.setLastname(((User) user).getLastname());
+                if (((User) user).getCars() != null) {
+                    userVal.setCars(((User) user).getCars());
+                }
+                manager.getTransaction().begin();
+                manager.merge(userVal);
+                manager.getTransaction().commit();
+                manager.close();
+                return userVal;
+            }catch (Exception e) {
+                manager.close();
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -676,6 +696,26 @@ public class CarParkService extends  AbstractCarParkService{
 
     @Override
     public Object updateReservation(Object reservation) {
+        EntityManager manager = emf.createEntityManager();
+        Reservation res = manager.find(Reservation.class, ((Reservation) reservation).getReservationId());
+        if(res !=null){
+            try{
+                res.setStartDate(((Reservation) reservation).getStartDate());
+                res.setEndDate(((Reservation) reservation).getEndDate());
+                res.setParkingSpot(((Reservation) reservation).getParkingSpot());
+                res.setCost(((Reservation) reservation).getCost());
+                res.setCar(((Reservation) reservation).getCar());
+                manager.getTransaction().begin();
+                manager.merge(res);
+                manager.getTransaction().commit();
+                manager.close();
+                return res;
+            }catch (Exception e){
+                manager.close();
+                return null;
+            }
+        }
+        manager.close();
         return null;
     }
 
